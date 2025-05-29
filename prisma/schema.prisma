@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("mysql://root:mypassword@localhost:3306/artisancrafts")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String   @db.Text
+  price       Float
+  image       String
+  category    String
+  featured    Boolean  @default(false)
+  stock       Int
+  rating      Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum Role {
+  USER
+  ADMIN
+}
